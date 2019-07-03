@@ -1,22 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>GifTastic</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GifTastic</title>
 </head>
+
 <body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script>
+    <h1>Hello World</h1>
+
+    <div id="buttons"></div>
+
+    <div id="gifs"></div>
+
+    <div id="addButton"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        console.log("here")
+        $(document).ready(function () {
+
+            var topic = ["baseball", "hockey", "women's soccer", "basketball"];
+
+            function makeButtons() {
+
+                $("#addButton").empty();
+
+                for (var i = 0; i < topic.length; i++) {
+
+                    var buttons = $("<button>");
+
+                    buttons.addClass("sport")
+
+                    buttons.attr("data-sport")
+
+                    buttons.text(topic[i]);
+
+                    $("#addButton").append(buttons)
+                }
+            }
+            makeButtons();
 
 
 
-    
-</script>
 
 
-
+        })
+    </script>
 </body>
+
 </html>
