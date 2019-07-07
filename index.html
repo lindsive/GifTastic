@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>GifTastic</title>
 </head>
 
@@ -18,9 +17,8 @@
 
     <div id="addButton"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-        console.log("here")
         $(document).ready(function () {
 
             var topic = ["baseball", "hockey", "women's soccer", "basketball"];
@@ -33,21 +31,46 @@
 
                     var buttons = $("<button>");
 
-                    buttons.addClass("sport")
+                    $(buttons).addClass("sport");
 
-                    buttons.attr("data-sport")
+                    $(buttons).attr("data-sport", topic[i])
 
-                    buttons.text(topic[i]);
+                    $(buttons).text(topic[i]);
 
-                    $("#addButton").append(buttons)
+                    $("#addButton").prepend(buttons)
                 }
             }
+
             makeButtons();
 
+            $("button").on("click", function () {
 
+                var pickSport = $(this).attr("data-sport");
 
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + pickSport + "&api_key=wNVgFZIC6jsB82mWi5KfFNzId4Rl3aMT&limit=10&offset=0&lang=en";
 
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
+                    .then(function(response) {
+                        
+                        var results = response.data;
+                        for (var i = 0; i < results.length; i++) {
 
+                            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+                                var gifRating = results[i].rating;
+                                var p = $("<p>").text("Gif Rating: " + gifRating);
+                                var image = $("<img>");
+
+                                image.attr("src", results[i].images.fixed_height.url);
+
+                                $("#gifs").prepend(p)
+                                $("#gifs").prepend(image);
+                            }
+                        }
+                    })
+            })
         })
     </script>
 </body>
