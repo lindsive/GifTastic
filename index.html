@@ -21,7 +21,7 @@
     <script>
         $(document).ready(function () {
 
-            var topic = ["baseball", "hockey", "women's soccer", "basketball"];
+            var topic = ["baseball", "ice hockey", "women's soccer", "basketball"];
 
             function makeButtons() {
 
@@ -47,7 +47,7 @@
 
                 var pickSport = $(this).attr("data-sport");
 
-                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + pickSport + "&api_key=wNVgFZIC6jsB82mWi5KfFNzId4Rl3aMT&limit=10&offset=0&lang=en";
+                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=CS0yXZhzQZCp3hABfjD1zkwsE29JGnMD&q=" + pickSport + "&limit=10&offset=0&lang=en";
 
                 $.ajax({
                     url: queryURL,
