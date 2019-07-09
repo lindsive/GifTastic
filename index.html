@@ -13,9 +13,18 @@
 
     <div id="buttons"></div>
 
-    <div id="gifs"></div>
-
     <div id="addButton"></div>
+    
+    <span id="form">
+        <label for="search">Search for a GIF</label>
+        <input type="text" id="search">
+    </span>
+
+    <span id="submitAndClearButtons">
+        <button type="submit" id="searchButton">Search</button>
+    </span>
+
+    <div id="gifs"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
@@ -37,7 +46,7 @@
 
                     $(buttons).text(topic[i]);
 
-                    $("#addButton").prepend(buttons)
+                    $("#addButton").append(buttons)
                 }
             }
 
@@ -53,8 +62,8 @@
                     url: queryURL,
                     method: "GET"
                 })
-                    .then(function(response) {
-                        
+                    .then(function (response) {
+
                         var results = response.data;
                         for (var i = 0; i < results.length; i++) {
 
@@ -65,12 +74,45 @@
 
                                 image.attr("src", results[i].images.fixed_height.url);
 
-                                $("#gifs").prepend(p)
-                                $("#gifs").prepend(image);
+
+                                $("#gifs").append(image);
+                                $("#gifs").append(p);
                             }
                         }
                     })
             })
+
+            // function to build API link for search 
+            function searchAPI(){
+                var queryURL = "https://api.giphy.com/v1/gifs/search?";
+
+                var parameters = {"api-key": "CS0yXZhzQZCp3hABfjD1zkwsE29JGnMD" };
+
+                parameters.q = $("#search").val().trim();
+                parameters.limit = 10;
+                parameters.offset = 0;
+                parameters.lang = "en";
+                
+                return queryURL + $.param(parameters);
+            }
+
+            // function for search
+            $("#searchButton").on("click", function () {
+
+                event.preventDefault();
+
+                var queryURL = searchAPI();
+
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }) .then (function(search){
+                    var searchedSport = search.data
+                    searchedSport.push(topic[i]);
+                })
+                console.log(topic)
+            })
+            // console.log(topic)
         })
     </script>
 </body>
