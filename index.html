@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./assets/javascript/app.js"></script>
     <title>GifTastic</title>
 </head>
 
@@ -25,96 +27,7 @@
     </span>
 
     <div id="gifs"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-
-            var topic = ["baseball", "ice hockey", "women's soccer", "basketball"];
-
-            function makeButtons() {
-
-                $("#addButton").empty();
-
-                for (var i = 0; i < topic.length; i++) {
-
-                    var buttons = $("<button>");
-
-                    $(buttons).addClass("sport");
-
-                    $(buttons).attr("data-sport", topic[i])
-
-                    $(buttons).text(topic[i]);
-
-                    $("#addButton").append(buttons)
-                }
-            }
-
-            makeButtons();
-
-            $("button").on("click", function () {
-
-                var pickSport = $(this).attr("data-sport");
-
-                var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=CS0yXZhzQZCp3hABfjD1zkwsE29JGnMD&q=" + pickSport + "&limit=10&offset=0&lang=en";
-
-                $.ajax({
-                    url: queryURL,
-                    method: "GET"
-                })
-                    .then(function (response) {
-
-                        var results = response.data;
-                        for (var i = 0; i < results.length; i++) {
-
-                            if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
-                                var gifRating = results[i].rating;
-                                var p = $("<p>").text("Gif Rating: " + gifRating);
-                                var image = $("<img>");
-
-                                image.attr("src", results[i].images.fixed_height.url);
-
-
-                                $("#gifs").append(image);
-                                $("#gifs").append(p);
-                            }
-                        }
-                    })
-            })
-
-            // function to build API link for search 
-            function searchAPI(){
-                var queryURL = "https://api.giphy.com/v1/gifs/search?";
-
-                var parameters = {"api-key": "CS0yXZhzQZCp3hABfjD1zkwsE29JGnMD" };
-
-                parameters.q = $("#search").val().trim();
-                parameters.limit = 10;
-                parameters.offset = 0;
-                parameters.lang = "en";
-                
-                return queryURL + $.param(parameters);
-            }
-
-            // function for search
-            $("#searchButton").on("click", function () {
-
-                event.preventDefault();
-
-                var queryURL = searchAPI();
-
-                $.ajax({
-                    url: queryURL,
-                    method: "GET"
-                }) .then (function(search){
-                    var searchedSport = search.data
-                    searchedSport.push(topic[i]);
-                })
-                console.log(topic)
-            })
-            // console.log(topic)
-        })
-    </script>
+    
 </body>
 
 </html>
